@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Menu, X, Vault } from "lucide-react";
+import { Menu, X, Vault, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 const NAV = [
   { label: "Dashboard", href: "#dashboard" },
@@ -13,6 +14,7 @@ const NAV = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <motion.header
@@ -42,12 +44,28 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <Button variant="ghost" size="sm">
-            Sign In
-          </Button>
-          <Button size="sm" className="shadow-[0_0_30px_-10px_var(--primary)]">
-            Get Started
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <span className="max-w-[10rem] truncate text-sm text-muted-foreground">{user?.name}</span>
+              <Button asChild variant="ghost" size="sm" className="gap-2">
+                <Link to="/dashboard">
+                  <LayoutDashboard className="h-4 w-4" /> Dashboard
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" className="gap-2" onClick={logout}>
+                <LogOut className="h-4 w-4" /> Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/login">Sign In</Link>
+              </Button>
+              <Button asChild size="sm" className="shadow-[0_0_30px_-10px_var(--primary)]">
+                <Link to="/register">Get Started</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -75,10 +93,31 @@ export function SiteHeader() {
             ))}
           </nav>
           <div className="mt-3 flex gap-2">
-            <Button variant="outline" className="flex-1">
-              Sign In
-            </Button>
-            <Button className="flex-1">Get Started</Button>
+            {isAuthenticated ? (
+              <>
+                <Button asChild variant="outline" className="flex-1">
+                  <Link to="/dashboard">Dashboard</Link>
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    setOpen(false);
+                    logout();
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="outline" className="flex-1">
+                  <Link to="/login">Sign In</Link>
+                </Button>
+                <Button asChild className="flex-1">
+                  <Link to="/register">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}
