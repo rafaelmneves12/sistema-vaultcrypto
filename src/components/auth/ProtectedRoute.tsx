@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 
@@ -11,11 +11,16 @@ import { useAuth } from "@/context/AuthContext";
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, ready } = useAuth();
   const navigate = useNavigate();
+  const wasAuthenticated = useRef(false);
 
   useEffect(() => {
-    if (ready && !isAuthenticated) {
-      navigate({ to: "/login", replace: true });
+    if (!ready) return;
+    if (isAuthenticated) {
+      wasAuthenticated.current = true;
+      return;
     }
+    // signed out from within the app -> landing page; never signed in -> login
+    navigate({ to: wasAuthenticated.current ? "/" : "/login", replace: true });
   }, [ready, isAuthenticated, navigate]);
 
   if (!ready || !isAuthenticated) {
