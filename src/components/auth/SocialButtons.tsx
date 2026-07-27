@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -37,7 +37,7 @@ function MicrosoftIcon() {
   );
 }
 
-const PROVIDERS: { id: Provider; label: string; icon: () => JSX.Element }[] = [
+const PROVIDERS: { id: Provider; label: string; icon: () => ReactElement }[] = [
   { id: "google", label: "Continue with Google", icon: GoogleIcon },
   { id: "github", label: "Continue with GitHub", icon: GithubIcon },
   { id: "microsoft", label: "Continue with Microsoft", icon: MicrosoftIcon },
