@@ -32,10 +32,10 @@ function DashboardPage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  async function handleLogout() {
-    // navigate away first so the route guard doesn't bounce to /login
-    await navigate({ to: "/", replace: true });
+  function handleLogout() {
     logout();
+    // the guard also redirects signed-out users here, so both paths agree
+    navigate({ to: "/", replace: true });
   }
 
   return (
