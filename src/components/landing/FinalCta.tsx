@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./Reveal";
 
@@ -14,10 +15,13 @@ export function FinalCta() {
                 Ready to organize your crypto investments?
               </h2>
               <p className="mt-4 text-muted-foreground">Create your free account today.</p>
-              <Button size="lg" className="mt-8 shadow-[0_0_50px_-12px_var(--primary)]">
-                Get Started
-                <ArrowRight className="h-4 w-4" />
+              <Button asChild size="lg" className="mt-8 shadow-[0_0_50px_-12px_var(--primary)]">
+                <Link to="/register">
+                  Get Started
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
+
             </div>
           </div>
         </Reveal>
