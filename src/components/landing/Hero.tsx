@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { Link } from "@tanstack/react-router";
 import { ArrowRight, LineChart, Sparkles } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { DashboardMockup } from "./DashboardMockup";
 import { motionTokens } from "@/lib/design-tokens";
@@ -33,15 +35,20 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button size="lg" className="w-full shadow-[0_0_50px_-12px_var(--primary)] sm:w-auto">
-              Get Started
-              <ArrowRight className="h-4 w-4" />
+            <Button asChild size="lg" className="w-full shadow-[0_0_50px_-12px_var(--primary)] sm:w-auto">
+              <Link to="/register">
+                Get Started
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto">
-              <LineChart className="h-4 w-4" />
-              Explore Dashboard
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+              <Link to="/dashboard">
+                <LineChart className="h-4 w-4" />
+                Explore Dashboard
+              </Link>
             </Button>
           </div>
+
 
           <p className="mt-5 text-xs text-muted-foreground">
             Portfolio tracking & analytics only — VaultX never holds, buys or moves your assets.
