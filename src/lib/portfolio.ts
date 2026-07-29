@@ -13,6 +13,8 @@ export type Holding = {
   /** average buy price in USD, used for P&L */
   avgCostUsd: number;
   addedAt: string;
+  /** ISO date (yyyy-mm-dd) of the purchase */
+  purchaseDate?: string;
 };
 
 export type ActivityItem = {
