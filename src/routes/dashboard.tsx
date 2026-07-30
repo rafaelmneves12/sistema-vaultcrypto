@@ -20,16 +20,15 @@ import { PanelError } from "@/components/dashboard/States";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { useWatchlist } from "@/context/WatchlistContext";
 import { useMarketAssets } from "@/hooks/use-market";
 import {
   fearGreedFromMarket,
   pushActivity,
   readActivity,
   readPortfolio,
-  readWatchlist,
   valuePortfolio,
   writePortfolio,
-  writeWatchlist,
   type ActivityItem,
   type Holding,
 } from "@/lib/portfolio";
