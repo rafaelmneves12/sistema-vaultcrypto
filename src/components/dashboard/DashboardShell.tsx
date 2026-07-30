@@ -33,8 +33,8 @@ import { useAuth } from "@/context/AuthContext";
 const NAV = [
   { label: "Dashboard", icon: LayoutDashboard, to: "/dashboard" as const, ready: true },
   { label: "Portfolio", icon: Briefcase, to: "/portfolio" as const, ready: true },
-  { label: "Market", icon: LineChart, ready: false },
-  { label: "Watchlist", icon: Star, ready: false },
+  { label: "Market", icon: LineChart, to: "/market" as const, ready: true },
+  { label: "Watchlist", icon: Star, to: "/watchlist" as const, ready: true },
   { label: "Learn", icon: BookOpen, ready: false },
   { label: "Settings", icon: Settings, ready: false },
 ];

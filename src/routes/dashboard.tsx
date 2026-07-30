@@ -20,16 +20,15 @@ import { PanelError } from "@/components/dashboard/States";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
+import { useWatchlist } from "@/context/WatchlistContext";
 import { useMarketAssets } from "@/hooks/use-market";
 import {
   fearGreedFromMarket,
   pushActivity,
   readActivity,
   readPortfolio,
-  readWatchlist,
   valuePortfolio,
   writePortfolio,
-  writeWatchlist,
   type ActivityItem,
   type Holding,
 } from "@/lib/portfolio";
@@ -61,14 +60,13 @@ function DashboardPage() {
   const { user } = useAuth();
   const { assets, isLoading, isDemo, refetch } = useMarketAssets(50);
 
+  const { ids: watchlist, add: addToWatchlist } = useWatchlist();
   const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [watchlist, setWatchlist] = useState<string[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [dialog, setDialog] = useState<{ open: boolean; mode: AddMode }>({ open: false, mode: "portfolio" });
 
   useEffect(() => {
     setHoldings(readPortfolio());
-    setWatchlist(readWatchlist());
     setActivity(readActivity());
   }, []);
 
@@ -116,16 +114,13 @@ function DashboardPage() {
     [],
   );
 
-  const addWatch = useCallback((asset: { id: string; name: string }) => {
-    setWatchlist((current) => {
-      if (current.includes(asset.id)) return current;
-      const next = [...current, asset.id];
-      writeWatchlist(next);
-      return next;
-    });
-    setActivity(pushActivity({ type: "watchlist", title: `${asset.name} added to watchlist` }));
-    toast.success(`${asset.name} added to your watchlist.`);
-  }, []);
+  const addWatch = useCallback(
+    (asset: { id: string; name: string }) => {
+      addToWatchlist(asset);
+      setActivity(readActivity());
+    },
+    [addToWatchlist],
+  );
 
   return (
     <DashboardShell notifications={activity.length}>
