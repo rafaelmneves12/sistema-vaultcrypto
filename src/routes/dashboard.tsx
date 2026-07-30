@@ -116,16 +116,13 @@ function DashboardPage() {
     [],
   );
 
-  const addWatch = useCallback((asset: { id: string; name: string }) => {
-    setWatchlist((current) => {
-      if (current.includes(asset.id)) return current;
-      const next = [...current, asset.id];
-      writeWatchlist(next);
-      return next;
-    });
-    setActivity(pushActivity({ type: "watchlist", title: `${asset.name} added to watchlist` }));
-    toast.success(`${asset.name} added to your watchlist.`);
-  }, []);
+  const addWatch = useCallback(
+    (asset: { id: string; name: string }) => {
+      addToWatchlist(asset);
+      setActivity(readActivity());
+    },
+    [addToWatchlist],
+  );
 
   return (
     <DashboardShell notifications={activity.length}>
