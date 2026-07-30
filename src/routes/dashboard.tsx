@@ -61,14 +61,13 @@ function DashboardPage() {
   const { user } = useAuth();
   const { assets, isLoading, isDemo, refetch } = useMarketAssets(50);
 
+  const { ids: watchlist, add: addToWatchlist } = useWatchlist();
   const [holdings, setHoldings] = useState<Holding[]>([]);
-  const [watchlist, setWatchlist] = useState<string[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [dialog, setDialog] = useState<{ open: boolean; mode: AddMode }>({ open: false, mode: "portfolio" });
 
   useEffect(() => {
     setHoldings(readPortfolio());
-    setWatchlist(readWatchlist());
     setActivity(readActivity());
   }, []);
 
