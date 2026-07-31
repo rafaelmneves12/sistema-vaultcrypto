@@ -92,10 +92,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "VaultX — Crypto Portfolio Tracking & Analytics" },
       {
         property: "og:description",
-        content: "Track. Analyze. Grow. A premium crypto portfolio workspace.",
+        content: "VaultX helps you track live crypto prices, organize holdings and analyze portfolio performance.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "VaultX — Crypto Portfolio Tracking & Analytics" },
+      { name: "twitter:description", content: "VaultX helps you track live crypto prices, organize holdings and analyze portfolio performance." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/34186387-e5bc-48f1-b047-82f840ed80b2/id-preview-387cc555--cee25b05-7da0-443a-88b4-bbfe5e66277c.lovable.app-1785498057028.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/34186387-e5bc-48f1-b047-82f840ed80b2/id-preview-387cc555--cee25b05-7da0-443a-88b4-bbfe5e66277c.lovable.app-1785498057028.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
