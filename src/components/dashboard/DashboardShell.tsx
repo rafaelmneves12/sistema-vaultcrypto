@@ -35,7 +35,7 @@ const NAV = [
   { label: "Portfolio", icon: Briefcase, to: "/portfolio" as const, ready: true },
   { label: "Market", icon: LineChart, to: "/market" as const, ready: true },
   { label: "Watchlist", icon: Star, to: "/watchlist" as const, ready: true },
-  { label: "Learn", icon: BookOpen, ready: false },
+  { label: "Learn", icon: BookOpen, to: "/learn" as const, ready: true },
   { label: "Settings", icon: Settings, ready: false },
 ];
 
