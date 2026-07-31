@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
@@ -30,6 +31,11 @@ const WatchlistRoute = WatchlistRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/watchlist': typeof WatchlistRoute
   '/asset/$id': typeof AssetIdRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/watchlist': typeof WatchlistRoute
   '/asset/$id': typeof AssetIdRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/watchlist': typeof WatchlistRoute
   '/asset/$id': typeof AssetIdRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/profile'
     | '/register'
+    | '/settings'
     | '/sitemap.xml'
     | '/watchlist'
     | '/asset/$id'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/profile'
     | '/register'
+    | '/settings'
     | '/sitemap.xml'
     | '/watchlist'
     | '/asset/$id'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/portfolio'
     | '/profile'
     | '/register'
+    | '/settings'
     | '/sitemap.xml'
     | '/watchlist'
     | '/asset/$id'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   PortfolioRoute: typeof PortfolioRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
+  SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WatchlistRoute: typeof WatchlistRoute
   AssetIdRoute: typeof AssetIdRoute
@@ -200,6 +213,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -285,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortfolioRoute: PortfolioRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
+  SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WatchlistRoute: WatchlistRoute,
   AssetIdRoute: AssetIdRoute,
