@@ -1,22 +1,48 @@
 /** Shared number/currency formatting for market + portfolio UI. */
 
+/**
+ * Display currency. All internal maths stay in USD (CoinCap's unit); the
+ * selected currency only affects presentation, using fixed mocked rates.
+ */
+export const CURRENCIES = {
+  USD: { label: "US Dollar", code: "USD", locale: "en-US", rate: 1 },
+  EUR: { label: "Euro", code: "EUR", locale: "de-DE", rate: 0.92 },
+  BRL: { label: "Brazilian Real", code: "BRL", locale: "pt-BR", rate: 5.35 },
+} as const;
+
+export type CurrencyCode = keyof typeof CURRENCIES;
+
+let activeCurrency: CurrencyCode = "USD";
+
+export function setActiveCurrency(code: CurrencyCode) {
+  activeCurrency = CURRENCIES[code] ? code : "USD";
+}
+
+export function getActiveCurrency() {
+  return CURRENCIES[activeCurrency];
+}
+
 export function formatCurrency(value: number, opts: { compact?: boolean; maxDecimals?: number } = {}) {
-  if (!Number.isFinite(value)) return "$0.00";
+  const { code, locale, rate } = getActiveCurrency();
+  if (!Number.isFinite(value)) {
+    return new Intl.NumberFormat(locale, { style: "currency", currency: code }).format(0);
+  }
+  const converted = value * rate;
   if (opts.compact) {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat(locale, {
       style: "currency",
-      currency: "USD",
+      currency: code,
       notation: "compact",
       maximumFractionDigits: 2,
-    }).format(value);
+    }).format(converted);
   }
-  const decimals = opts.maxDecimals ?? (Math.abs(value) >= 1 ? 2 : 6);
-  return new Intl.NumberFormat("en-US", {
+  const decimals = opts.maxDecimals ?? (Math.abs(converted) >= 1 ? 2 : 6);
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "USD",
+    currency: code,
     minimumFractionDigits: Math.min(2, decimals),
     maximumFractionDigits: decimals,
-  }).format(value);
+  }).format(converted);
 }
 
 export function formatPercent(value: number, digits = 2) {
