@@ -13,6 +13,9 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/context/AuthContext";
 import { WatchlistProvider } from "@/context/WatchlistContext";
+import { PreferencesProvider } from "@/context/PreferencesContext";
+import { NotificationsProvider } from "@/context/NotificationsContext";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -134,13 +137,19 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <WatchlistProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <Toaster position="top-right" />
-        </WatchlistProvider>
-      </AuthProvider>
+      <PreferencesProvider>
+        <AuthProvider>
+          <WatchlistProvider>
+            <NotificationsProvider>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <PageTransition>
+                <Outlet />
+              </PageTransition>
+              <Toaster position="top-right" />
+            </NotificationsProvider>
+          </WatchlistProvider>
+        </AuthProvider>
+      </PreferencesProvider>
     </QueryClientProvider>
   );
 }

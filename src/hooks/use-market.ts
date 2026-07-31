@@ -3,6 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getAssets, type Asset } from "@/services/coincap";
 import { buildDemoAssets } from "@/lib/market-demo";
+import { getItem, setItem } from "@/lib/storage";
+
+const MARKET_CACHE_KEY = "vaultx:market-cache";
+
+type MarketCache = { at: number; assets: Asset[] };
 
 export const MARKET_POLL_MS = 20_000;
 
@@ -10,6 +15,9 @@ export type MarketData = {
   assets: Asset[];
   isLoading: boolean;
   isDemo: boolean;
+  /** true when the API failed and cached LocalStorage data is being shown */
+  isStale: boolean;
+  staleAt: number | null;
   error: string | null;
   refetch: () => void;
   updatedAt: number;
@@ -19,6 +27,7 @@ export type MarketData = {
 export function useMarketAssets(limit = 50): MarketData {
   const tick = useRef(0);
   const [demoFallback, setDemoFallback] = useState(false);
+  const [stale, setStale] = useState<{ at: number } | null>(null);
 
   const query = useQuery({
     queryKey: ["coincap", "assets", limit],
@@ -27,10 +36,20 @@ export function useMarketAssets(limit = 50): MarketData {
       try {
         const data = await getAssets({ limit }, signal);
         setDemoFallback(false);
+        setStale(null);
+        setItem<MarketCache>(MARKET_CACHE_KEY, { at: Date.now(), assets: data });
         return data;
       } catch (err) {
+        if (import.meta.env.DEV) console.warn("CoinCap unavailable:", err);
+        // Graceful degradation: last known data from LocalStorage, then demo data.
+        const cached = getItem<MarketCache | null>(MARKET_CACHE_KEY, null);
+        if (cached?.assets?.length) {
+          setDemoFallback(false);
+          setStale({ at: cached.at });
+          return cached.assets;
+        }
+        setStale(null);
         setDemoFallback(true);
-        if (import.meta.env.DEV) console.warn("CoinCap unavailable, using demo data:", err);
         return buildDemoAssets(tick.current);
       }
     },
@@ -43,6 +62,8 @@ export function useMarketAssets(limit = 50): MarketData {
     assets: query.data ?? [],
     isLoading: query.isPending,
     isDemo: demoFallback,
+    isStale: Boolean(stale),
+    staleAt: stale?.at ?? null,
     error: query.error ? (query.error as Error).message : null,
     refetch: () => void query.refetch(),
     updatedAt: query.dataUpdatedAt,
