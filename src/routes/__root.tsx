@@ -13,6 +13,9 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/context/AuthContext";
 import { WatchlistProvider } from "@/context/WatchlistContext";
+import { PreferencesProvider } from "@/context/PreferencesContext";
+import { NotificationsProvider } from "@/context/NotificationsContext";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
