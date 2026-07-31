@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MarketRouteImport } from './routes/market'
@@ -46,6 +47,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfolioRoute = PortfolioRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/market': typeof MarketRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
+  '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/market': typeof MarketRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
+  '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/market': typeof MarketRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
+  '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/market'
     | '/notifications'
     | '/portfolio'
+    | '/pricing'
     | '/profile'
     | '/register'
     | '/settings'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/market'
     | '/notifications'
     | '/portfolio'
+    | '/pricing'
     | '/profile'
     | '/register'
     | '/settings'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/market'
     | '/notifications'
     | '/portfolio'
+    | '/pricing'
     | '/profile'
     | '/register'
     | '/settings'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   MarketRoute: typeof MarketRoute
   NotificationsRoute: typeof NotificationsRoute
   PortfolioRoute: typeof PortfolioRoute
+  PricingRoute: typeof PricingRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   SettingsRoute: typeof SettingsRoute
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolio': {
@@ -303,6 +323,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketRoute: MarketRoute,
   NotificationsRoute: NotificationsRoute,
   PortfolioRoute: PortfolioRoute,
+  PricingRoute: PricingRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   SettingsRoute: SettingsRoute,

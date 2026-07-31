@@ -28,7 +28,16 @@ export const Route = createFileRoute("/pricing")({
   component: PricingPage,
 });
 
-const PLANS = [
+type Plan = {
+  id: string;
+  name: string;
+  tagline: string;
+  monthly: number;
+  featured?: boolean;
+  features: string[];
+};
+
+const PLANS: Plan[] = [
   {
     id: "starter",
     name: "Starter",
@@ -62,7 +71,7 @@ const PLANS = [
       "Dedicated account manager",
     ],
   },
-] as const;
+];
 
 function PricingPage() {
   const [annual, setAnnual] = useState(false);
